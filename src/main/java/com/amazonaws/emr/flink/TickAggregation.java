@@ -73,6 +73,7 @@ public class TickAggregation {
                     "  'connector' = 'kinesis',\n" +
                     "  'stream' = '%s',\n" +
                     "  'aws.region' = '%s',\n" +
+                    "  'json.timestamp-format.standard' = 'ISO-8601',\n" +
                     "  'scan.stream.initpos' = 'LATEST',\n" +
                     "  'format' = 'json'\n" +
                     ");", _inputStreamName, _region);
@@ -90,6 +91,7 @@ public class TickAggregation {
                     "  'connector' = 'filesystem',\n" +
                     "  'path' = '%s', \n" +
                     "  'format' = 'parquet'," +
+                    "  'json.timestamp-format.standard' = 'ISO-8601'," +
                     "  'sink.partition-commit.delay' = '1 h',\n" +
                     "  'sink.partition-commit.policy.kind' = 'success-file' \n" +
                     ");", _s3SinkPath);

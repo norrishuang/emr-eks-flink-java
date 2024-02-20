@@ -7,9 +7,9 @@ ARG FLINK_VERSION=1.17.1
 FROM ${FLINK_BASE_IMAGE}
 USER root
 
-RUN sudo yum update -y
-RUN sudo yum group install -y "Development Tools" && \
-    sudo yum install -y wget tar
+RUN yum update -y
+RUN yum group install -y "Development Tools" && \
+    yum install -y wget tar
 #    && curl -o /tmp/hadoop-common-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.6/hadoop-common-3.3.6.jar \
 #    && echo "Done" \
 #    && curl -o /tmp/hadoop-mapreduce-client-core-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.6/hadoop-mapreduce-client-core-3.3.6.jar \
@@ -44,7 +44,7 @@ RUN curl -o /tmp/flink-parquet-${FLINK_VERSION}.jar https://repo1.maven.org/mave
     && curl -o /tmp/apache-maven.tar.gz ${MAVEN_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
     && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
     && rm -f /tmp/apache-maven.tar.gz \
-    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 RUN mkdir -p $FLINK_HOME/usrlib
 

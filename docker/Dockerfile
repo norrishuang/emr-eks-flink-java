@@ -15,9 +15,9 @@ RUN yum group install -y "Development Tools" && \
 #    && curl -o /tmp/hadoop-mapreduce-client-core-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.6/hadoop-mapreduce-client-core-3.3.6.jar \
 #    && echo "Done" \
 
-RUN wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/1.17.1/flink-parquet-1.17.1.jar -O /tmp/flink-parquet-1.17.1.jar  \
+RUN wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/1.17.1/flink-parquet-1.17.1.jar -o /tmp/flink-parquet-1.17.1.jar  \
 #    && echo "Done" \
-    && wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/1.17.1/flink-sql-parquet-1.17.1.jar -O /tmp/flink-sql-parquet-1.17.1.jar  \
+    && wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/1.17.1/flink-sql-parquet-1.17.1.jar -o /tmp/flink-sql-parquet-1.17.1.jar  \
 #    && echo "Done" \
 #    && curl -o /tmp/kafka-clients-3.6.1.jar https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.6.1/kafka-clients-3.6.1.jar \
 #    && echo "Done" \
@@ -42,8 +42,8 @@ RUN wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/1.17.1/fl
 #
 
 RUN mkdir -p /usr/share/maven \
-RUN wget https://apache.osuosl.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz -O /tmp/apache-maven.tar.gz  \
-    && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
+RUN wget https://apache.osuosl.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz -o /tmp/apache-maven.tar.gz
+RUN tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
     && rm -f /tmp/apache-maven.tar.gz \
     && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 

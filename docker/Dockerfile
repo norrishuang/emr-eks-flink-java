@@ -53,7 +53,7 @@ RUN mkdir -p $FLINK_HOME/usrlib
 
 RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks-flink-java && \
     cd /tmp/emr-eks-flink-java/ && \
-    mvn clean compile package install assembly:assembly -Dmaven.test.skip=true
+    mvn clean install
 
 COPY /tmp/flink-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-parquet-${FLINK_VERSION}.jar
 COPY /tmp/flink-sql-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-sql-parquet-${FLINK_VERSION}.jar

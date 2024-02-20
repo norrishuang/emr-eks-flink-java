@@ -12,22 +12,15 @@ ENV MAVEN_URL "https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 
 RUN yum update -y
 RUN yum group install -y "Development Tools" && \
-    yum install -y wget tar
-#    && curl -o /tmp/hadoop-common-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.6/hadoop-common-3.3.6.jar \
-#    && echo "Done" \
-#    && curl -o /tmp/hadoop-mapreduce-client-core-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.6/hadoop-mapreduce-client-core-3.3.6.jar \
-#    && echo "Done" \
+    yum install -y wget tar && \
+    wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar -O /tmp/flink-parquet-${FLINK_VERSION}.jar && \
+    wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/${FLINK_VERSION}/flink-sql-parquet-${FLINK_VERSION}.jar -O /tmp/flink-sql-parquet-${FLINK_VERSION}.jar && \
+    mkdir -p /usr/share/maven
 
-RUN wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar -O /tmp/flink-parquet-${FLINK_VERSION}.jar  \
-    && wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/${FLINK_VERSION}/flink-sql-parquet-${FLINK_VERSION}.jar -O /tmp/flink-sql-parquet-${FLINK_VERSION}.jar
-
-RUN mkdir -p /usr/share/maven
-
-RUN wget ${MAVEN_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz -O /tmp/apache-maven.tar.gz
-
-RUN tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
-    && rm -f /tmp/apache-maven.tar.gz \
-    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+RUN wget ${MAVEN_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz -O /tmp/apache-maven.tar.gz && \
+    tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 && \
+    rm -f /tmp/apache-maven.tar.gz && \
+    ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 RUN mkdir -p $FLINK_HOME/usrlib
 

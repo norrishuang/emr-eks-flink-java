@@ -2,7 +2,8 @@ ARG FLINK_BASE_IMAGE=public.ecr.aws/emr-on-eks/flink/emr-6.14.0-flink:latest
 ARG MAVEN_VERSION=3.9.6
 ARG MAVEN_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 ARG VERSION=1.0.0
-ARG FLINK_VERSION=1.17.1
+
+ENV FLINK_VERSION "1.17.1"
 
 FROM ${FLINK_BASE_IMAGE}
 USER root

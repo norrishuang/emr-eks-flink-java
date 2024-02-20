@@ -85,13 +85,13 @@ public class TickAggregation {
                     "  P_MONTH BIGINT,\n" +
                     "  P_DAY BIGINT,\n" +
                     "  CUSTOMERID INT,\n" +
-                    "  TRANSACTIONAMOUNT INT," +
-                    "  CUSTOMER_COUNT BIGINT\n" +
+                    "  TRANSACTIONAMOUNT INT,\n" +
+                    "  CUSTOMER_COUNT BIGINT \n" +
                     ") PARTITIONED BY (`P_YEAR`, `P_MONTH`, `P_DAY`) WITH (\n" +
                     "  'connector' = 'filesystem',\n" +
                     "  'path' = '%s', \n" +
-                    "  'format' = 'parquet'," +
-                    "  'json.timestamp-format.standard' = 'ISO-8601'," +
+                    "  'format' = 'json', \n" +
+                    "  'json.timestamp-format.standard' = 'ISO-8601', \n" +
                     "  'sink.partition-commit.delay' = '1 h',\n" +
                     "  'sink.partition-commit.policy.kind' = 'success-file' \n" +
                     ");", _s3SinkPath);

@@ -40,8 +40,9 @@ RUN curl -o /tmp/flink-parquet-1.17.1.jar https://repo1.maven.org/maven2/org/apa
 #    && cp /tmp/parquet-hadoop-1.13.1.jar /usr/lib/flink/plugins/parquet-hadoop/parquet-hadoop-1.13.1.jar
 #
 #
-    && mkdir -p /usr/share/maven \
-    && curl -o /tmp/apache-maven.tar.gz ${MAVEN_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+
+RUN mkdir -p /usr/share/maven \
+RUN curl -o /tmp/apache-maven.tar.gz https://apache.osuosl.org/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz \
     && tar -xzf /tmp/apache-maven.tar.gz -C /usr/share/maven --strip-components=1 \
     && rm -f /tmp/apache-maven.tar.gz \
     && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn

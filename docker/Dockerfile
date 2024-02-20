@@ -9,12 +9,13 @@ USER root
 
 RUN yum update -y && \
     yum group install -y "Development Tools" && \
-    yum install -y wget tar \
+    yum install -y wget tar
 #    && curl -o /tmp/hadoop-common-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.6/hadoop-common-3.3.6.jar \
 #    && echo "Done" \
 #    && curl -o /tmp/hadoop-mapreduce-client-core-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.6/hadoop-mapreduce-client-core-3.3.6.jar \
 #    && echo "Done" \
-    && curl -o /tmp/flink-parquet-${FLINK_VERSION}.jar https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar \
+
+RUN curl -o /tmp/flink-parquet-${FLINK_VERSION}.jar https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar \
 #    && echo "Done" \
     && curl -o /tmp/flink-sql-parquet-${FLINK_VERSION}.jar https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/${FLINK_VERSION}/flink-sql-parquet-${FLINK_VERSION}.jar \
 #    && echo "Done" \

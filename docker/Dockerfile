@@ -3,10 +3,10 @@ ARG MAVEN_VERSION=3.9.6
 ARG MAVEN_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 ARG VERSION=1.0.0
 
-ENV FLINK_VERSION "1.17.1"
-
 FROM ${FLINK_BASE_IMAGE}
 USER root
+
+ENV FLINK_VERSION "1.17.1"
 
 RUN yum update -y
 RUN yum group install -y "Development Tools" && \

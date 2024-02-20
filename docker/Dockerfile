@@ -7,8 +7,8 @@ ARG FLINK_VERSION=1.17.1
 FROM ${FLINK_BASE_IMAGE}
 USER root
 
-RUN yum update -y && \
-    yum group install -y "Development Tools" && \
+RUN yum update -y
+RUN yum group install -y "Development Tools" && \
     yum install -y wget tar
 #    && curl -o /tmp/hadoop-common-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.6/hadoop-common-3.3.6.jar \
 #    && echo "Done" \

@@ -17,30 +17,7 @@ RUN yum group install -y "Development Tools" && \
 #    && echo "Done" \
 
 RUN wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/1.17.1/flink-parquet-1.17.1.jar -O /tmp/flink-parquet-1.17.1.jar  \
-#    && echo "Done" \
     && wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/1.17.1/flink-sql-parquet-1.17.1.jar -O /tmp/flink-sql-parquet-1.17.1.jar
-#    && echo "Done" \
-#    && curl -o /tmp/kafka-clients-3.6.1.jar https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.6.1/kafka-clients-3.6.1.jar \
-#    && echo "Done" \
-#    && curl -o /tmp/flink-connector-kafka-3.0.2-1.18.jar https://repo1.maven.org/maven2/org/apache/flink/flink-connector-kafka/3.0.2-1.18/flink-connector-kafka-3.0.2-1.18.jar \
-#    && echo "Done" \
-#    && curl -o /tmp/aws-msk-iam-auth-2.0.3.jar https://repo1.maven.org/maven2/software/amazon/msk/aws-msk-iam-auth/2.0.3/aws-msk-iam-auth-2.0.3.jar \
-#    && echo "Done" \
-#    && curl -o /tmp/parquet-hadoop-1.13.1.jar https://repo1.maven.org/maven2/org/apache/parquet/parquet-hadoop/1.13.1/parquet-hadoop-1.13.1.jar \
-#    && echo "Done" \
-#    && mkdir -p /usr/lib/flink/plugins/hadoop-common /usr/lib/flink/plugins/hadoop-mapreduce-client-core /usr/lib/flink/plugins/flink-parquet \
-#      /usr/lib/flink/plugins/flink-sql-parquet /usr/lib/flink/plugins/kafka-clients /usr/lib/flink/plugins/flink-connector-kafka \
-#      /usr/lib/flink/plugins/aws-msk-iam-auth /usr/lib/flink/plugins/parquet-hadoop \
-#    && cp /tmp/hadoop-common-3.3.6.jar /usr/lib/flink/plugins/hadoop-common/hadoop-common-3.3.6.jar \
-#    && cp /tmp/hadoop-mapreduce-client-core-3.3.6.jar /usr/lib/flink/plugins/hadoop-mapreduce-client-core/hadoop-mapreduce-client-core-3.3.6.jar \
-#    && cp /tmp/flink-parquet-1.18.0.jar /usr/lib/flink/plugins/flink-parquet/flink-parquet-1.18.0.jar \
-#    && cp /tmp/flink-sql-parquet-1.18.0.jar /usr/lib/flink/plugins/flink-sql-parquet/flink-sql-parquet-1.18.0.jar \
-#    && cp /tmp/kafka-clients-3.6.1.jar /usr/lib/flink/plugins/kafka-clients/kafka-clients-3.6.1.jar \
-#    && cp /tmp/flink-connector-kafka-3.0.2-1.18.jar /usr/lib/flink/plugins/flink-connector-kafka/flink-connector-kafka-3.0.2-1.18.jar \
-#    && cp /tmp/aws-msk-iam-auth-2.0.3.jar /usr/lib/flink/plugins/aws-msk-iam-auth/aws-msk-iam-auth-2.0.3.jar \
-#    && cp /tmp/parquet-hadoop-1.13.1.jar /usr/lib/flink/plugins/parquet-hadoop/parquet-hadoop-1.13.1.jar
-#
-#
 
 RUN mkdir -p /usr/share/maven
 
@@ -56,9 +33,8 @@ RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks
     cd /tmp/emr-eks-flink-java/ && \
     mvn clean install
 
-COPY /tmp/flink-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-parquet-${FLINK_VERSION}.jar
-COPY /tmp/flink-sql-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-sql-parquet-${FLINK_VERSION}.jar
-
-COPY /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.4.jar
+RUN cp /tmp/flink-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-parquet-${FLINK_VERSION}.jar \
+    && cp /tmp/flink-sql-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-sql-parquet-${FLINK_VERSION}.jar \
+    && cp /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.4.jar
 # # Use hadoop user and group 
 USER hadoop:hadoop

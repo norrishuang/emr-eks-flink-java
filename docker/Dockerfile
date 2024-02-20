@@ -1,4 +1,4 @@
-ARG FLINK_BASE_IMAGE=public.ecr.aws/emr-on-eks/flink/emr-6.15.0-flink:latest
+ARG FLINK_BASE_IMAGE=public.ecr.aws/emr-on-eks/flink/emr-6.14.0-flink:latest
 ARG MAVEN_VERSION=3.9.6
 ARG MAVEN_URL=https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries
 ARG VERSION=1.0.0
@@ -15,9 +15,9 @@ RUN yum group install -y "Development Tools" && \
 #    && curl -o /tmp/hadoop-mapreduce-client-core-3.3.6.jar https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.3.6/hadoop-mapreduce-client-core-3.3.6.jar \
 #    && echo "Done" \
 
-RUN curl -o /tmp/flink-parquet-${FLINK_VERSION}.jar https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar \
+RUN curl -o /tmp/flink-parquet-1.17.1.jar https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/1.17.1/flink-parquet-1.17.1.jar \
 #    && echo "Done" \
-    && curl -o /tmp/flink-sql-parquet-${FLINK_VERSION}.jar https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/${FLINK_VERSION}/flink-sql-parquet-${FLINK_VERSION}.jar \
+    && curl -o /tmp/flink-sql-parquet-1.17.1.jar https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/1.17.1/flink-sql-parquet-1.17.1.jar \
 #    && echo "Done" \
 #    && curl -o /tmp/kafka-clients-3.6.1.jar https://repo1.maven.org/maven2/org/apache/kafka/kafka-clients/3.6.1/kafka-clients-3.6.1.jar \
 #    && echo "Done" \
@@ -55,6 +55,6 @@ RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks
 COPY /tmp/flink-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-parquet-${FLINK_VERSION}.jar
 COPY /tmp/flink-sql-parquet-${FLINK_VERSION}.jar /usr/lib/flink/plugins/flink-sql-parquet-${FLINK_VERSION}.jar
 
-COPY /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.2.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.2.jar
+COPY /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.4.jar
 # # Use hadoop user and group 
 USER hadoop:hadoop

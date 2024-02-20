@@ -90,7 +90,7 @@ public class TickAggregation {
                     ") PARTITIONED BY (`P_YEAR`, `P_MONTH`, `P_DAY`) WITH (\n" +
                     "  'connector' = 'filesystem',\n" +
                     "  'path' = '%s', \n" +
-                    "  'format' = 'json', \n" +
+                    "  'format' = 'parquet', \n" +
                     "  'json.timestamp-format.standard' = 'ISO-8601', \n" +
                     "  'sink.partition-commit.delay' = '1 h',\n" +
                     "  'sink.partition-commit.policy.kind' = 'success-file' \n" +

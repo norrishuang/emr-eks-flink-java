@@ -36,6 +36,9 @@ RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks
 
 RUN cp /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/lib/emr-eks-flink-java-1.0.4.jar
 
+#RUN wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar -O /tmp/flink-parquet-${FLINK_VERSION}.jar && \
+#    wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/${FLINK_VERSION}/flink-sql-parquet-${FLINK_VERSION}.jar -O /tmp/flink-sql-parquet-${FLINK_VERSION}.jar
+
 #cp /tmp/flink-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-parquet-${FLINK_VERSION}.jar \
 #    && cp /tmp/flink-sql-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-sql-parquet-${FLINK_VERSION}.jar \
 #    && cp /tmp/hadoop-common-${HADOOP_VERSION}.jar $FLINK_HOME/lib/hadoop-common-${HADOOP_VERSION}.jar \

@@ -10,13 +10,16 @@ ENV FLINK_VERSION "1.17.1"
 ENV MAVEN_VERSION "3.9.6"
 ENV MAVEN_URL "https://apache.osuosl.org/maven/maven-3/${MAVEN_VERSION}/binaries"
 
+ENV HADOOP_VERSION "3.3.3"
+
 RUN yum update -y
 RUN yum group install -y "Development Tools" && \
     yum install -y wget tar && \
     wget https://repo1.maven.org/maven2/org/apache/flink/flink-parquet/${FLINK_VERSION}/flink-parquet-${FLINK_VERSION}.jar -O /tmp/flink-parquet-${FLINK_VERSION}.jar && \
     wget https://repo1.maven.org/maven2/org/apache/flink/flink-sql-parquet/${FLINK_VERSION}/flink-sql-parquet-${FLINK_VERSION}.jar -O /tmp/flink-sql-parquet-${FLINK_VERSION}.jar && \
     wget https://repo1.maven.org/maven2/org/apache/flink/flink-s3-fs-hadoop/1.17.1/flink-s3-fs-hadoop-1.17.1.jar -O /tmp/flink-s3-fs-hadoop-1.17.1.jar && \
-    wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/3.3.6/hadoop-common-3.3.6.jar -O /tmp/hadoop-common-3.3.6.jar && \
+    wget https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-common/${HADOOP_VERSION}/hadoop-common-${HADOOP_VERSION}.jar -O /tmp/hadoop-common-${HADOOP_VERSION}.jar && \
+    wget https://repo1.maven.org/maven2/com/github/nkutsche/woodstox-core/5.2.1/woodstox-core-5.2.1.jar -O /tmp/woodstox-core-5.2.1.jar && \
     mkdir -p /usr/share/maven
 
 RUN wget ${MAVEN_URL}/apache-maven-${MAVEN_VERSION}-bin.tar.gz -O /tmp/apache-maven.tar.gz && \
@@ -34,7 +37,8 @@ RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks
 RUN cp /tmp/flink-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-parquet-${FLINK_VERSION}.jar \
     && cp /tmp/flink-sql-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-sql-parquet-${FLINK_VERSION}.jar \
     && cp /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.4.jar \
-    && cp /tmp/hadoop-common-3.3.6.jar $FLINK_HOME/lib/hadoop-common-3.3.6.jar
+    && cp /tmp/hadoop-common-${HADOOP_VERSION}.jar $FLINK_HOME/lib/hadoop-common-${HADOOP_VERSION}.jar \
+    && cp /tmp/woodstox-core-5.2.1.jar $FLINK_HOME/lib/woodstox-core-5.2.1.jar
 
 RUN ls -l $FLINK_HOME/plugins/
 # # Use hadoop user and group 

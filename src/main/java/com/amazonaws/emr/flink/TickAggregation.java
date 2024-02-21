@@ -91,7 +91,6 @@ public class TickAggregation {
                     "  'connector' = 'filesystem',\n" +
                     "  'path' = '%s', \n" +
                     "  'format' = 'parquet', \n" +
-                    "  'json.timestamp-format.standard' = 'ISO-8601', \n" +
                     "  'sink.partition-commit.delay' = '1 h',\n" +
                     "  'sink.partition-commit.policy.kind' = 'success-file' \n" +
                     ");", _s3SinkPath);

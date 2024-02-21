@@ -30,10 +30,9 @@ RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks
     git pull && \
     mvn clean install
 
-RUN cp /tmp/flink-parquet-${FLINK_VERSION}.jar $FLINK_HOME/plugins/flink-parquet-${FLINK_VERSION}.jar \
-    && cp /tmp/flink-sql-parquet-${FLINK_VERSION}.jar $FLINK_HOME/plugins/flink-sql-parquet-${FLINK_VERSION}.jar \
+RUN cp /tmp/flink-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-parquet-${FLINK_VERSION}.jar \
+    && cp /tmp/flink-sql-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-sql-parquet-${FLINK_VERSION}.jar \
     && cp /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.4.jar \
-    && cp /tmp/flink-s3-fs-hadoop-1.17.1.jar $FLINK_HOME/plugins/flink-s3-fs-hadoop-1.17.1.jar
 
 RUN ls -l $FLINK_HOME/plugins/
 # # Use hadoop user and group 

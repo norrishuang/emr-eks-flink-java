@@ -36,10 +36,11 @@ RUN git clone https://github.com/norrishuang/emr-eks-flink-java.git /tmp/emr-eks
 
 RUN cp /tmp/flink-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-parquet-${FLINK_VERSION}.jar \
     && cp /tmp/flink-sql-parquet-${FLINK_VERSION}.jar $FLINK_HOME/lib/flink-sql-parquet-${FLINK_VERSION}.jar \
-    && cp /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/usrlib/emr-eks-flink-java-1.0.4.jar \
     && cp /tmp/hadoop-common-${HADOOP_VERSION}.jar $FLINK_HOME/lib/hadoop-common-${HADOOP_VERSION}.jar \
     && cp /tmp/woodstox-core-5.2.1.jar $FLINK_HOME/lib/woodstox-core-5.2.1.jar \
-    && wget https://repo1.maven.org/maven2/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar -O $FLINK_HOME/lib/stax2-api-4.2.1.jar
+    && wget https://repo1.maven.org/maven2/org/codehaus/woodstox/stax2-api/4.2.1/stax2-api-4.2.1.jar -O $FLINK_HOME/lib/stax2-api-4.2.1.jar \
+    && wget https://repo1.maven.org/maven2/com/google/guava/guava/33.0.0-jre/guava-33.0.0-jre.jar -O $FLINK_HOME/lib/guava-33.0.0-jre.jar \
+    && cp /tmp/emr-eks-flink-java/target/emr-eks-flink-java-1.0.4.jar $FLINK_HOME/lib/emr-eks-flink-java-1.0.4.jar \
 
 # # Use hadoop user and group 
 USER hadoop:hadoop

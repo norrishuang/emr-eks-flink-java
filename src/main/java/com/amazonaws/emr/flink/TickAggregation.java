@@ -57,7 +57,7 @@ public class TickAggregation {
                     "data": ["OK","FAIL","PENDING"]
                     }
                 )}}",
-               "transactionTime": "{{date.now}}"
+               "transactionTime": "{{date.utc}}"
             }
              */
 
@@ -80,14 +80,14 @@ public class TickAggregation {
             streamTableEnvironment.executeSql(sourceSQL);
 
             final String s3SinkSql = String.format("CREATE TABLE s3_sink_agg_1min (\n" +
-                    "  AGG_DT TIMESTAMP(3),\n" +
-                    "  P_YEAR BIGINT,\n" +
-                    "  P_MONTH BIGINT,\n" +
-                    "  P_DAY BIGINT,\n" +
-                    "  CUSTOMERID INT,\n" +
-                    "  TRANSACTIONAMOUNT INT,\n" +
-                    "  CUSTOMER_COUNT BIGINT \n" +
-                    ") PARTITIONED BY (`P_YEAR`, `P_MONTH`, `P_DAY`) WITH (\n" +
+                    "  agg_dt TIMESTAMP(3),\n" +
+                    "  year BIGINT,\n" +
+                    "  month BIGINT,\n" +
+                    "  day BIGINT,\n" +
+                    "  customerId BIGINT,\n" +
+                    "  transactionAmount INT,\n" +
+                    "  customer_count BIGINT\n" +
+                    ") PARTITIONED BY (`year`, `month`, `day`) WITH (\n" +
                     "  'connector' = 'filesystem',\n" +
                     "  'path' = '%s', \n" +
                     "  'format' = 'parquet', \n" +

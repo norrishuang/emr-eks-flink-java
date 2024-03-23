@@ -81,9 +81,9 @@ public class TickAggregation {
 
             final String s3SinkSql = String.format("CREATE TABLE s3_sink_agg_1min (\n" +
                     "  agg_dt TIMESTAMP(3),\n" +
-                    "  year BIGINT,\n" +
-                    "  month BIGINT,\n" +
-                    "  day BIGINT,\n" +
+                    "  `year` BIGINT,\n" +
+                    "  `month` BIGINT,\n" +
+                    "  `day` BIGINT,\n" +
                     "  customerId BIGINT,\n" +
                     "  transactionAmount INT,\n" +
                     "  customer_count BIGINT\n" +

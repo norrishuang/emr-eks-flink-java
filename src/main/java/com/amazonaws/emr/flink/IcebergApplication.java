@@ -75,7 +75,6 @@ public class IcebergApplication {
                     "  customer_count BIGINT\n" +
                     ") PARTITIONED BY (`year`, `month`, `day`) WITH (\n" +
                     "'type'='iceberg', \n" +
-                    "'warehouse'='%s', \n" +
                     "'catalog-name'='glue_catalog', \n" +
                     "'write.metadata.delete-after-commit.enabled'='true', \n" +
                     "'write.metadata.previous-versions-max'='5', \n" +

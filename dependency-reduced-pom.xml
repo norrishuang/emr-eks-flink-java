@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.amazonaws</groupId>
   <artifactId>emr-eks-flink-java</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.6</version>
   <build>
     <plugins>
       <plugin>
@@ -44,7 +44,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>com.amazonaws.emr.flink.TickAggregation</mainClass>
+                  <mainClass>com.amazonaws.emr.flink.IcebergApplication</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -187,6 +187,7 @@
   <properties>
     <scala.binary.version>2.12</scala.binary.version>
     <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
+    <iceberg.version>1.4.2</iceberg.version>
     <java.version>1.8</java.version>
     <flink.version>1.17.1</flink.version>
   </properties>

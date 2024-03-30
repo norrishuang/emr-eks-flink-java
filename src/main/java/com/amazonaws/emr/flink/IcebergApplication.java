@@ -11,7 +11,7 @@ public class IcebergApplication {
 
     private static String _region = "us-east-1";
     private static String _inputStreamName = "ExampleInputStream";
-    private static String _s3SinkPath = "s3a://ka-app-code-<username>/data";
+//    private static String _s3SinkPath = "s3a://ka-app-code-<username>/data";
 
     private static String _warehousePath = "s3a://ka-app-code-<username>/warehouse";
 
@@ -21,12 +21,10 @@ public class IcebergApplication {
         // set up the streaming execution environment
 
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-//        final ParameterTool parameter = ParameterTool.fromArgs(args);
 
         _inputStreamName = args[0];
         _region = args[1];
-        _s3SinkPath = args[2];
-        _warehousePath = args[3];
+        _warehousePath = args[2];
 
         IcebergSink.createAndDeployJob(env);
 

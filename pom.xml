@@ -154,9 +154,16 @@
             <version>${iceberg.version}</version>
         </dependency>
 
+        <!--AWS Dependencies -->
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>glue</artifactId>
+            <version>2.25.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>sts</artifactId>
             <version>2.25.21</version>
         </dependency>
 

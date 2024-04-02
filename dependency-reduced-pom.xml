@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-streaming-java</artifactId>
-      <version>1.17.1</version>
+      <version>1.18.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -84,14 +84,8 @@
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-s3-fs-hadoop</artifactId>
-      <version>1.17.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-api-java-bridge</artifactId>
-      <version>1.17.1</version>
+      <version>1.18.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -111,7 +105,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-planner_2.12</artifactId>
-      <version>1.17.1</version>
+      <version>1.18.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -143,10 +137,6 @@
           <groupId>org.apache.flink</groupId>
         </exclusion>
         <exclusion>
-          <artifactId>apiguardian-api</artifactId>
-          <groupId>org.apiguardian</groupId>
-        </exclusion>
-        <exclusion>
           <artifactId>flink-table-runtime</artifactId>
           <groupId>org.apache.flink</groupId>
         </exclusion>
@@ -155,7 +145,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-common</artifactId>
-      <version>1.17.1</version>
+      <version>1.18.0</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -188,7 +178,7 @@
     <scala.binary.version>2.12</scala.binary.version>
     <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
     <iceberg.version>1.4.2</iceberg.version>
-    <java.version>1.8</java.version>
-    <flink.version>1.17.1</flink.version>
+    <java.version>11</java.version>
+    <flink.version>1.18.0</flink.version>
   </properties>
 </project>

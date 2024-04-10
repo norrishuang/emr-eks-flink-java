@@ -44,7 +44,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>com.amazonaws.emr.flink.IcebergApplication</mainClass>
+                  <mainClass>com.amazonaws.emr.flink.MSKS3StreamingParquetSinkJob</mainClass>
                 </transformer>
               </transformers>
             </configuration>

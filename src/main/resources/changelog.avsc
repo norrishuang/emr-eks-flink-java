@@ -1,0 +1,21 @@
+{
+  "type":"record",
+  "name":"ChangeLog",
+  "namespace":"com.amazonaws.sample.flink",
+  "fields":[
+    {
+      "name":"customerId",
+      "type":"string"},
+    {
+      "name":"transactionAmount",
+      "type":"int"},
+
+    {
+      "name":"sourceIp",
+      "type":"string"},
+     {
+           "name":"status",
+           "type":"string"},
+    {
+      "name":"transactionTime",
+      "type":"string"}]}

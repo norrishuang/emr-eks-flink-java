@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.amazonaws</groupId>
   <artifactId>emr-eks-flink-java</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
   <build>
     <plugins>
       <plugin>
@@ -44,7 +44,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>com.amazonaws.emr.flink.MSKS3StreamingParquetSinkJob</mainClass>
+                  <mainClass>com.amazonaws.emr.flink.MSKCDCIcebergSink</mainClass>
                 </transformer>
               </transformers>
             </configuration>

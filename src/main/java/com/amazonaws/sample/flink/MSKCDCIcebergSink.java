@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class MSKCDCIcebergSink {
 
     private static String _topics = "topic01";
-    private static String _kafkaBootstrapServers = "b-1.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092,b-2.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092,b-3.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092";= "ExampleInputStream";
+    private static String _kafkaBootstrapServers = "b-1.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092,b-2.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092,b-3.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092";
 //    private static String _s3SinkPath = "s3a://ka-app-code-<username>/data";
 
     private static String _warehousePath = "s3a://ka-app-code-<username>/warehouse";

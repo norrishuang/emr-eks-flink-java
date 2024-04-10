@@ -62,10 +62,10 @@ public class MSKS3StreamingParquetSinkJob {
         properties.put("bootstrap.servers",mskBootstrapServers);
 
         // for msk serverless iam
-        properties.put("security.protocol", "SASL_SSL");
-        properties.put("sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
-        properties.put("sasl.client.callback.handler.class", "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
-        properties.put("sasl.mechanism", "AWS_MSK_IAM");
+        properties.put("kafka.security.protocol", "SASL_SSL");
+        properties.put("kafka.sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
+        properties.put("kafka.sasl.client.callback.handler.class", "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
+        properties.put("kafka.sasl.mechanism", "AWS_MSK_IAM");
 
 
         KafkaSource<String> source = createKafkaSource(properties, topics);

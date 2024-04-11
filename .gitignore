@@ -1,0 +1,14 @@
+.vscode/settings.json
+target/classes/changelog.avsc
+target/classes/com/amazonaws/emr/flink/CustomerCount.class
+target/classes/com/amazonaws/emr/flink/IcebergApplication.class
+target/classes/com/amazonaws/emr/flink/IcebergApplication$IcebergSink.class
+target/classes/com/amazonaws/emr/flink/MSKS3StreamingParquetSinkJob.class
+target/classes/com/amazonaws/emr/flink/S3StreamingParquetSinkJob.class
+target/classes/com/amazonaws/emr/flink/TickAggregation.class
+target/classes/com/amazonaws/emr/flink/TickAggregation$TickAggregationSql.class
+target/classes/com/amazonaws/emr/flink/TickCount.class
+target/classes/com/amazonaws/sample/flink/MSKCDCIcebergSink.class
+target/classes/com/amazonaws/sample/flink/MSKCDCIcebergSink$IcebergSink.class
+target/classes/com/amazonaws/sample/flink/util/ChangeLogSchema.class
+.vscode/settings.json

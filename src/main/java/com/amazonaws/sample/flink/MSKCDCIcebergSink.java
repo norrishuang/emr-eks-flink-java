@@ -49,11 +49,11 @@ public class MSKCDCIcebergSink {
             streamTableEnvironment.executeSql(icebergCatalog);
 
             // Source
-            final String sourceKafkaSQL = String.format("CREATE TABLE kafka_pg_portfolio_json (\n" +
+            final String sourceKafkaSQL = String.format("CREATE TABLE kafka_source_table (\n" +
                     "id INT,\n" +
                     "uuid INT,\n" +
                     "user_name STRING,\n" +
-                    "phone_number LONG,\n" +
+                    "phone_number BIGINT,\n" +
                     "product_id STRING,\n" +
                     "product_name STRING,\n" +
                     "product_type STRING,\n" +
@@ -68,17 +68,17 @@ public class MSKCDCIcebergSink {
                     "'topic' = '%s',\n" +
                     "'properties.bootstrap.servers' = '%s',\n" +
                     "'properties.group.id' = 'kafka_portfolio_pg_json_gid_001',\n" +
-                    "'format' = 'changelog-json'\n" +
-                    ");\n;", _topics, _kafkaBootstrapServers);
-
+                    "'format' = 'debezium-json'\n" +
+                    ");", _topics, _kafkaBootstrapServers);
+            LOG.info(sourceKafkaSQL);
             streamTableEnvironment.executeSql(sourceKafkaSQL);
 
 
-            final String s3SinkSql = String.format("CREATE TABLE kafka_pg_portfolio_json (\n" +
+            final String s3SinkSql = String.format("CREATE TABLE IF NOT EXISTS glue_catalog.icebergdb.user_order_list_flink_iceberg (\n" +
                     "id INT,\n" +
                     "uuid INT,\n" +
                     "user_name STRING,\n" +
-                    "phone_number LONG,\n" +
+                    "phone_number BIGINT,\n" +
                     "product_id STRING,\n" +
                     "product_name STRING,\n" +
                     "product_type STRING,\n" +
@@ -86,7 +86,7 @@ public class MSKCDCIcebergSink {
                     "price FLOAT,\n" +
                     "unit INT,\n" +
                     "created_at TIMESTAMP,\n" +
-                    "updated_at TIMESTAMP,\n" +
+                    "updated_at TIMESTAMP\n" +
                     ") WITH (\n" +
                     "'type'='iceberg', \n" +
                     "'catalog-name'='glue_catalog', \n" +
@@ -97,10 +97,8 @@ public class MSKCDCIcebergSink {
             streamTableEnvironment.executeSql(s3SinkSql);
 
             final String Insert_Iceberg = "INSERT INTO  " +
-                    "glue_catalog.iceberg_db.s3_sink_agg_5min /*+ OPTIONS('upsert-enabled'='true') " +
-                    "SELECT * FROM kafka_pg_portfolio_json;";
-
-
+                    "glue_catalog.icebergdb.user_order_list_flink_iceberg */ " +
+                    "SELECT * FROM kafka_source_table;";
 
             streamTableEnvironment.executeSql(Insert_Iceberg);
 

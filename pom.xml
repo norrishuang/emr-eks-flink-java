@@ -6,16 +6,16 @@
 
     <groupId>com.amazonaws</groupId>
     <artifactId>emr-eks-flink-java</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>11</java.version>
-        <flink.version>1.17.1</flink.version>
+        <flink.version>1.18.0</flink.version>
         <hadoop.version>3.3.6</hadoop.version>
         <scala.binary.version>2.12</scala.binary.version>
         <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
-        <iceberg.version>1.4.2</iceberg.version>
+        <iceberg.version>1.5.0</iceberg.version>
     </properties>
 
     <dependencyManagement>
@@ -57,6 +57,7 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-parquet</artifactId>
             <version>${flink.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.parquet</groupId>
@@ -65,17 +66,17 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-sql-parquet</artifactId>
-            <version>${flink.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.flink</groupId>
-                    <artifactId>flink-shaded-force-shading</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-sql-parquet</artifactId>-->
+<!--            <version>${flink.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.flink</groupId>-->
+<!--                    <artifactId>flink-shaded-force-shading</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
 
 
@@ -83,6 +84,7 @@
             <groupId>org.apache.parquet</groupId>
             <artifactId>parquet-avro</artifactId>
             <version>1.13.1</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.apache.parquet</groupId>
@@ -92,27 +94,35 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-avro</artifactId>
-            <version>${flink.version}</version>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>2.1.0-alpha1</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.hadoop</groupId>
-            <artifactId>hadoop-client</artifactId>
-            <version>${hadoop.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.avro</groupId>
-                    <artifactId>avro</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-avro</artifactId>
+            <version>${flink.version}</version>
+            <scope>provided</scope>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.hadoop</groupId>-->
+<!--            <artifactId>hadoop-client</artifactId>-->
+<!--            <version>${hadoop.version}</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.apache.avro</groupId>-->
+<!--                    <artifactId>avro</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.apache.parquet</groupId>
             <artifactId>parquet-hadoop</artifactId>
             <version>${flink.format.parquet.version}</version>
+            <scope>provided</scope>
             <exclusions>
                 <exclusion>
                     <groupId>org.xerial.snappy</groupId>
@@ -167,19 +177,25 @@
         </dependency>
 
         <!--Iceberg Dependencies -->
-        <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-flink-runtime-1.15</artifactId>
-            <version>${iceberg.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-flink-runtime-1.18</artifactId>-->
+<!--            <version>${iceberg.version}</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-flink</artifactId>-->
+<!--            <version>${iceberg.version}</version>-->
+<!--        </dependency>-->
 
         <!--AWS Dependencies -->
         <!-- aws sdk  -->
-        <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-aws-bundle</artifactId>
-            <version>${iceberg.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-aws-bundle</artifactId>-->
+<!--            <version>${iceberg.version}</version>-->
+<!--        </dependency>-->
 
         <!--MSK IAM -->
         <dependency>
@@ -193,7 +209,14 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-kafka</artifactId>
             <version>3.1.0-1.18</version>
+            <scope>provided</scope>
         </dependency>
+
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-sql-connector-kafka</artifactId>-->
+<!--            <version>1.17.2</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
@@ -248,7 +271,7 @@
                             </filters>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.amazonaws.emr.flink.TickAggregation</mainClass>
+                                    <mainClass>com.amazonaws.sample.flink.MSKCDCIcebergSink</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

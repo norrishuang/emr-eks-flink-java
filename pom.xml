@@ -12,10 +12,10 @@
     <properties>
         <java.version>11</java.version>
         <flink.version>1.17.1</flink.version>
-        <hadoop.version>3.3.6</hadoop.version>
+        <hadoop.version>3.3.3</hadoop.version>
         <scala.binary.version>2.12</scala.binary.version>
         <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
-        <iceberg.version>1.4.3</iceberg.version>
+        <iceberg.version>1.3.1</iceberg.version>
     </properties>
 
    <!-- Get the latest SDK version from https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-bom -->
@@ -80,7 +80,7 @@
 
 
 
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.parquet</groupId>
             <artifactId>parquet-avro</artifactId>
             <version>1.13.1</version>
@@ -91,7 +91,7 @@
                     <artifactId>parquet-hadoop</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -106,19 +106,19 @@
             <scope>provided</scope>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.apache.hadoop</groupId>-->
-<!--            <artifactId>hadoop-client</artifactId>-->
-<!--            <version>${hadoop.version}</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.apache.avro</groupId>-->
-<!--                    <artifactId>avro</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
+       <!-- <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.avro</groupId>
+                    <artifactId>avro</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency> -->
 
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.parquet</groupId>
             <artifactId>parquet-hadoop</artifactId>
             <version>${flink.format.parquet.version}</version>
@@ -133,7 +133,7 @@
                     <artifactId>commons-cli</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
 
 
 
@@ -177,24 +177,23 @@
         </dependency>
 
         <!--Iceberg Dependencies -->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.iceberg</groupId>-->
-<!--            <artifactId>iceberg-flink-runtime-1.18</artifactId>-->
-<!--            <version>${iceberg.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.apache.iceberg</groupId>-->
-<!--            <artifactId>iceberg-flink</artifactId>-->
-<!--            <version>${iceberg.version}</version>-->
-<!--        </dependency>-->
-
+        <dependency>
+            <groupId>org.apache.iceberg</groupId>
+            <artifactId>iceberg-flink-runtime-1.17</artifactId>
+            <version>${iceberg.version}</version>
+        </dependency>
         <!--AWS Dependencies -->
         <!-- aws sdk  -->
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-aws-bundle</artifactId>
             <version>${iceberg.version}</version>
+        </dependency> -->
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>glue</artifactId>
+            <version>2.25.30</version>
         </dependency>
 
         <!--MSK IAM -->

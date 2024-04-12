@@ -10,8 +10,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.8.1</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
       <plugin>
@@ -57,7 +57,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-streaming-java</artifactId>
-      <version>1.18.0</version>
+      <version>1.17.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -93,7 +93,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-parquet</artifactId>
-      <version>1.18.0</version>
+      <version>1.17.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -139,7 +139,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-avro</artifactId>
-      <version>1.18.0</version>
+      <version>1.17.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -199,7 +199,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-api-java-bridge</artifactId>
-      <version>1.18.0</version>
+      <version>1.17.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -219,7 +219,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-planner_2.12</artifactId>
-      <version>1.18.0</version>
+      <version>1.17.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -251,6 +251,10 @@
           <groupId>org.apache.flink</groupId>
         </exclusion>
         <exclusion>
+          <artifactId>apiguardian-api</artifactId>
+          <groupId>org.apiguardian</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>flink-table-runtime</artifactId>
           <groupId>org.apache.flink</groupId>
         </exclusion>
@@ -259,7 +263,7 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-common</artifactId>
-      <version>1.18.0</version>
+      <version>1.17.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -297,23 +301,12 @@
       </exclusions>
     </dependency>
   </dependencies>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk-bom</artifactId>
-        <version>1.12.81</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <properties>
     <scala.binary.version>2.12</scala.binary.version>
     <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
-    <iceberg.version>1.5.0</iceberg.version>
+    <iceberg.version>1.4.3</iceberg.version>
     <java.version>11</java.version>
-    <flink.version>1.18.0</flink.version>
+    <flink.version>1.17.1</flink.version>
     <hadoop.version>3.3.6</hadoop.version>
   </properties>
 </project>

@@ -67,6 +67,7 @@ public class MSKS3StreamingParquetSinkJob {
                 "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
         properties.put("kafka.sasl.mechanism", "AWS_MSK_IAM");
 
+
         KafkaSource<String> source = createKafkaSource(properties, topics);
 
         DataStream<String> input = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka source");

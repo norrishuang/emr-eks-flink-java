@@ -7,6 +7,7 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 public class MSKCDCIcebergSink {
 
         private static String _topics = "topic01";
@@ -111,5 +112,4 @@ public class MSKCDCIcebergSink {
 
                 }
         }
-
 }

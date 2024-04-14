@@ -14,7 +14,7 @@ mvn clean install
 ```
 
 
-### Build Docker Image (Parquet File)
+### Build Docker Image (Iceberg Table)
 
 
 ```shell
@@ -39,8 +39,7 @@ aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --
 # pull flink base image
 docker pull $SRC_ECR_URL/flink/emr-$EMR_VERSION-flink:latest
 
-docker build -t $ECR_URL/eks-flink:emr-$EMR_VERSION-java-$IMAGE_VERSION -f ./Dockerfile --no-cache=true --build-arg FLINK_BASE_IMAGE=$SRC_ECR_URL/flink/emr-$EMR_VERSION-flink:latest .
+docker build -t $ECR_URL/eks-flink:emr-$EMR_VERSION-java-$IMAGE_VERSION -f ./Dockerfile-Iceberg --no-cache=true --build-arg FLINK_BASE_IMAGE=$SRC_ECR_URL/flink/emr-$EMR_VERSION-flink:latest .
 
 docker push $ECR_URL/eks-flink:emr-$EMR_VERSION-java-$IMAGE_VERSION
 ```
-

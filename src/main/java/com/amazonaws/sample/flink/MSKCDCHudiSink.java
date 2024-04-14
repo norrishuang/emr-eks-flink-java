@@ -7,8 +7,7 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-public class MSKCDCIcebergSink {
+public class MSKCDCHudiSink {
 
         private static String _topics = "topic01";
         private static String _kafkaBootstrapServers = "b-1.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092,b-2.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092,b-3.msk-cdc-demo.wzx9f.c2.kafka.us-east-1.amazonaws.com:9092";
@@ -30,11 +29,11 @@ public class MSKCDCIcebergSink {
                 _warehousePath = args[2];
                 _Parallelism = Integer.parseInt(args[3]);
 
-                MSKCDCIcebergSink.IcebergSink.createAndDeployJob(env);
+                MSKCDCHudiSink.HudiSink.createAndDeployJob(env);
 
         }
 
-        public static class IcebergSink {
+        public static class HudiSink {
 
                 public static void createAndDeployJob(StreamExecutionEnvironment env) {
                         StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(
@@ -45,14 +44,15 @@ public class MSKCDCIcebergSink {
                         configuration.setString("execution.checkpointing.interval", "1 min");
                         env.setParallelism(_Parallelism);
 
-                        final String icebergCatalog = String.format("CREATE CATALOG glue_catalog WITH ( \n" +
-                                        "'type'='iceberg', \n" +
-                                        "'warehouse'='%s', \n" +
-                                        "'catalog-impl'='org.apache.iceberg.aws.glue.GlueCatalog', \n" +
-                                        "'io-impl'='org.apache.iceberg.aws.s3.S3FileIO');", _warehousePath);
+                        // final String icebergCatalog = String.format("CREATE CATALOG glue_catalog WITH
+                        // ( \n" +
+                        // "'type'='iceberg', \n" +
+                        // "'warehouse'='%s', \n" +
+                        // "'catalog-impl'='org.apache.iceberg.aws.glue.GlueCatalog', \n" +
+                        // "'io-impl'='org.apache.iceberg.aws.s3.S3FileIO');", _warehousePath);
 
-                        LOG.info(icebergCatalog);
-                        streamTableEnvironment.executeSql(icebergCatalog);
+                        // LOG.info(icebergCatalog);
+                        // streamTableEnvironment.executeSql(icebergCatalog);
 
                         // Source
                         final String sourceKafkaSQL = String.format("CREATE TABLE kafka_source_table (\n" +
@@ -74,15 +74,14 @@ public class MSKCDCIcebergSink {
                                         "'topic' = '%s',\n" +
                                         "'properties.bootstrap.servers' = '%s',\n" +
                                         "'scan.startup.mode' = 'earliest-offset', \n" +
-                                        "'properties.group.id' = 'kafka_user_order_list_iceberg_01',\n" +
+                                        "'properties.group.id' = 'kafka_user_order_list_hudi_01',\n" +
                                         "'format' = 'debezium-json'\n" +
                                         ");", _topics, _kafkaBootstrapServers);
                         LOG.info(sourceKafkaSQL);
                         streamTableEnvironment.executeSql(sourceKafkaSQL);
 
                         final String s3SinkSql = String
-                                        .format("CREATE TABLE IF NOT EXISTS glue_catalog.icebergdb.user_order_list_flink_iceberg (\n"
-                                                        +
+                                        .format("CREATE TABLE IF NOT EXISTS user_order_list_flink_hudi (\n" +
                                                         "id INT,\n" +
                                                         "uuid STRING,\n" +
                                                         "user_name STRING,\n" +
@@ -94,22 +93,39 @@ public class MSKCDCIcebergSink {
                                                         "price FLOAT,\n" +
                                                         "unit INT,\n" +
                                                         "created_at STRING,\n" +
-                                                        "updated_at STRING\n" +
+                                                        "updated_at STRING,\n" +
+                                                        "PRIMARY KEY (`id`) NOT Enforced \n" +
                                                         ") WITH (\n" +
-                                                        "'type'='iceberg', \n" +
-                                                        "'catalog-name'='glue_catalog', \n" +
-                                                        "'write.metadata.delete-after-commit.enabled'='true', \n" +
-                                                        "'write.metadata.previous-versions-max'='5', \n" +
-                                                        "'format-version'='2');", _warehousePath);
+                                                        "'connector' = 'hudi',\n" +
+                                                        "'compaction.tasks'='1',\n" +
+                                                        "'changelog.enabled'='true',\n" +
+                                                        "'read.streaming.enabled' = 'true',\n" +
+                                                        "'read.streaming.skip_compaction' = 'true',\n" +
+                                                        "'write.task.max.size'='4096',\n" +
+                                                        "'write.bucket_assign.tasks'='1',\n" +
+                                                        "'compaction.delta_seconds'='120',\n" +
+                                                        "'compaction.delta_commits'='2',\n" +
+                                                        "'compaction.trigger.strategy'='num_or_time',\n" +
+                                                        "'compaction.max_memory'='2048',\n" +
+                                                        "'write.merge.max_memory'='1024',\n" +
+                                                        "'write.tasks' = '1',\n" +
+                                                        "'hive_sync.enable' = 'true',\n" +
+                                                        "'hive_sync.db' = 'hudi',\n" +
+                                                        "'hive_sync.table' = 'user_order_list_flink_hudi',\n" +
+                                                        "'hive_sync.mode' = 'hms',\n" +
+                                                        "'hive_sync.use_jdbc' = 'false',\n" +
+                                                        "'path' = '%s/user_order_list_flink_hudi',\n" +
+                                                        "'table.type' = 'MERGE_ON_READ');", _warehousePath);
 
                         streamTableEnvironment.executeSql(s3SinkSql);
 
-                        final String Insert_Iceberg = "INSERT INTO  " +
-                                        "glue_catalog.icebergdb.user_order_list_flink_iceberg " +
+                        final String Insert_Hudi = "INSERT INTO  " +
+                                        "user_order_list_flink_hudi " +
                                         "SELECT * FROM kafka_source_table;";
 
-                        streamTableEnvironment.executeSql(Insert_Iceberg);
+                        streamTableEnvironment.executeSql(Insert_Hudi);
 
                 }
         }
+
 }

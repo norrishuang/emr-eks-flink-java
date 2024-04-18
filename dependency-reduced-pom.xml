@@ -44,7 +44,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>com.amazonaws.emr.flink.MSKCDCIcebergSink</mainClass>
+                  <mainClass>com.amazonaws.emr.flink.TickAggregation</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -130,10 +130,6 @@
       <version>3.3.3</version>
       <scope>provided</scope>
       <exclusions>
-        <exclusion>
-          <artifactId>avro</artifactId>
-          <groupId>org.apache.avro</groupId>
-        </exclusion>
         <exclusion>
           <artifactId>hadoop-common</artifactId>
           <groupId>org.apache.hadoop</groupId>

@@ -51,20 +51,18 @@ public class MSKCDCIcebergSinkNew {
         public static void createAndDeployJob(StreamExecutionEnvironment env) throws IOException {
 
                  
-            InputStream inputStream = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("table2.sql");
-            String content = new String(inputStream.readAllBytes()); 
+            InputStream inputStream = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop.sql");
+            String content = new String(inputStream.readAllBytes());
                                                         
-                                                        
-           
-                StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(
+            StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(
                                                 env, EnvironmentSettings.newInstance().build());
 
-                Configuration configuration = streamTableEnvironment.getConfig().getConfiguration();
+            Configuration configuration = streamTableEnvironment.getConfig().getConfiguration();
 
-                configuration.setString("execution.checkpointing.interval", "1 min");
+            configuration.setString("execution.checkpointing.interval", "1 min");
                 // env.setParallelism(_Parallelism);
 
-                StatementSet stmtSet = streamTableEnvironment.createStatementSet();
+            StatementSet stmtSet = streamTableEnvironment.createStatementSet();
 
                 final String icebergCatalog = String.format("CREATE CATALOG glue_catalog WITH ( \n" +
                                                 "'type'='iceberg', \n" +
@@ -74,6 +72,10 @@ public class MSKCDCIcebergSinkNew {
 
                 LOG.info(icebergCatalog);
                 streamTableEnvironment.executeSql(icebergCatalog);
+
+                // craete database 
+                streamTableEnvironment.executeSql("CREATE DATABASE IF NOT EXISTS glue_catalog.icebergdb");
+
                 for (String sql : content.split(";")) {
                         sql = sql.replace("{TOPICS}", _topics);
                         sql = sql.replace("{KAFKA_BOOTSTRAP_SERVERS}", _kafkaBootstrapServers);

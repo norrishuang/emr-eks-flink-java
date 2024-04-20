@@ -54,7 +54,6 @@ import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.GroupCombineFunction;
 import org.apache.flink.api.common.functions.ReduceFunction;
-import org.apache.flink.api.common.operators.Keys;
 
 
 
@@ -189,7 +188,7 @@ public class MSKCDCIcebergSinkMultiTable {
             });
 
 
-           Keys<Tuple2<String, String>> tabkekey = insertDS_L2.groupBy(0).getKeys();
+           tabkekeyinsertDS_L2.groupBy(0).getKeys();
 
             
 

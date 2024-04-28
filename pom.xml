@@ -233,6 +233,19 @@
             <version>${awssdk.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <version>${awssdk.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>transfer</artifactId>
+            <version>${awssdk.version}</version>
+        </dependency>
+        
+
         <!--MSK IAM -->
         <!-- <dependency>
             <groupId>software.amazon.msk</groupId>

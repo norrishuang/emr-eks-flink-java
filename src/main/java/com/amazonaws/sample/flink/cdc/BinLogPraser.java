@@ -29,7 +29,7 @@ public class BinLogPraser implements MapFunction<String,Tuple2<String,DatasetL1>
         }
         
 
-        return line;
+        return null;
     }
 
 }

@@ -188,8 +188,6 @@ public class MSKCDCIcebergSinkMultiTable {
             });
 
 
-           tabkekeyinsertDS_L2.groupBy(0).getKeys();
-
             
 
             

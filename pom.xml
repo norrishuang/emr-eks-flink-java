@@ -14,7 +14,7 @@
         <hadoop.version>3.3.3</hadoop.version>
         <scala.binary.version>2.12</scala.binary.version>
         <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
-        <iceberg.version>1.3.1</iceberg.version>
+        <iceberg.version>1.4.0</iceberg.version>
         <awssdk.version>2.25.31</awssdk.version>
     </properties>
 
@@ -179,6 +179,7 @@
             <groupId>org.apache.iceberg</groupId>
             <artifactId>iceberg-flink-runtime-1.17</artifactId>
             <version>${iceberg.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!--AWS Dependencies -->
         <!-- aws sdk  -->

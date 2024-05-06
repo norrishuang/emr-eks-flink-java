@@ -40,69 +40,71 @@ public class IcebergApplication {
             configuration.setString("execution.checkpointing.interval", "1 min");
             final String icebergCatalog = String.format("CREATE CATALOG glue_catalog WITH ( \n" +
                     "'type'='iceberg', \n" +
-                    "'warehouse'='%s', \n" +
+                    "'warehouse'='s3://emr-hive-us-east-1-812046859005/warehouse/', \n" +
                     "'catalog-impl'='org.apache.iceberg.aws.glue.GlueCatalog', \n" +
                     "'io-impl'='org.apache.iceberg.aws.s3.S3FileIO');", _warehousePath);
             LOG.info(icebergCatalog);
+            System.out.println(icebergCatalog);
             streamTableEnvironment.executeSql(icebergCatalog);
 
             // Source
-            final String sourceSQL = String.format("CREATE TABLE kinesis_stream (\n" +
-                    "  customerId INT, \n" +
-                    "  transactionAmount INT,\n" +
-                    "  sourceIp STRING,\n" +
-                    "  status STRING,\n" +
-                    "  transactionTime TIMESTAMP(3),\n" +
-                    "  WATERMARK FOR transactionTime AS transactionTime - INTERVAL '5' SECOND \n" +
-                    ") WITH (\n" +
-                    "  'connector' = 'kinesis',\n" +
-                    "  'stream' = '%s',\n" +
-                    "  'aws.region' = '%s',\n" +
-                    "  'json.timestamp-format.standard' = 'ISO-8601',\n" +
-                    "  'scan.stream.initpos' = 'LATEST',\n" +
-                    "  'format' = 'json'\n" +
-                    ");", _inputStreamName, _region);
+            final String sourceSQL = "CREATE TABLE default_catalog.default_database.user_order_list\n" + //
+                                "            (\n" + //
+                                "                id BIGINT,\n" + //
+                                "                uuid STRING,\n" + //
+                                "                user_name STRING,\n" + //
+                                "                province STRING,\n" + //
+                                "                phone_number BIGINT,\n" + //
+                                "                product_id BIGINT,\n" + //
+                                "                product_name STRING,\n" + //
+                                "                product_type STRING,\n" + //
+                                "                manufacturing_date BIGINT,\n" + //
+                                "                price FLOAT,\n" + //
+                                "                unit BIGINT,\n" + //
+                                "                created_at TIMESTAMP_LTZ(3),\n" + //
+                                "                updated_at TIMESTAMP_LTZ(3),\n" + //
+                                "                PRIMARY KEY (id) NOT ENFORCED\n" + //
+                                "            ) WITH (\n" + //
+                                "                'connector' = 'mysql-cdc',\n" + //
+                                "                'hostname' = 'mysql-cdc-db.cghfgy0zyjlk.us-east-1.rds.amazonaws.com',\n" + //
+                                "                'port' = '3306',\n" + //
+                                "                'username' = 'admin',\n" + //
+                                "                'password' = 'Amazon123',\n" + //
+                                "                'database-name' = 'norrisdb',\n" + //
+                                "                'table-name' = 'user_order_list'\n" + //
+                                "            );";
             streamTableEnvironment.executeSql(sourceSQL);
 
 
-            final String s3SinkSql = String.format("CREATE TABLE glue_catalog.iceberg_db.s3_sink_agg_5min (\n" +
-                    "  agg_dt TIMESTAMP(3),\n" +
-                    "  `year` BIGINT,\n" +
-                    "  `month` BIGINT,\n" +
-                    "  `day` BIGINT,\n" +
-                    "  customerId BIGINT,\n" +
-                    "  transactionAmount INT,\n" +
-                    "  customer_count BIGINT\n" +
-                    ") PARTITIONED BY (`year`, `month`, `day`) WITH (\n" +
-                    "'type'='iceberg', \n" +
-                    "'catalog-name'='glue_catalog', \n" +
-                    "'write.metadata.delete-after-commit.enabled'='true', \n" +
-                    "'write.metadata.previous-versions-max'='5', \n" +
-                    "'format-version'='2');", _warehousePath);
-
+            final String s3SinkSql = "CREATE TABLE IF NOT EXISTS glue_catalog.icebergdb.user_order_list_flink_20240429_01(\n" + //
+                                "    id BIGINT,\n" + //
+                                "    uuid STRING,\n" + //
+                                "    user_name STRING,\n" + //
+                                "    province STRING,\n" + //
+                                "    phone_number BIGINT,\n" + //
+                                "    product_id BIGINT,\n" + //
+                                "    product_name STRING,\n" + //
+                                "    product_type STRING,\n" + //
+                                "    manufacturing_date BIGINT,\n" + //
+                                "    price FLOAT,\n" + //
+                                "    unit BIGINT,\n" + //
+                                "    created_at TIMESTAMP_LTZ(3),\n" + //
+                                "    updated_at TIMESTAMP_LTZ(3),\n" + //
+                                "    PRIMARY KEY (id) NOT ENFORCED )\n" + //
+                                "with(\n" + //
+                                "    'type'='iceberg',\n" + //
+                                "    'write.metadata.delete-after-commit.enabled'='true',\n" + //
+                                "    'write.metadata.previous-versions-max'='5',\n" + //
+                                "    'warehouse'='s3://myemr-bucket-01/data/iceberg-folder/',\n" + //
+                                "    'format-version'='2');";
+            System.out.println(s3SinkSql);
             streamTableEnvironment.executeSql(s3SinkSql);
+            
 
-            final String aggSQL_Iceberg = "INSERT INTO  " +
-                    "glue_catalog.iceberg_db.s3_sink_agg_5min /*+ OPTIONS('upsert-enabled'='true') " +
-                    "SELECT TUMBLE_START(transactionTime, INTERVAL '5' MINUTE)," +
-                    "EXTRACT(YEAR FROM transactionTime)," +
-                    "EXTRACT(MONTH FROM transactionTime), " +
-                    "EXTRACT(DAY FROM transactionTime), " +
-                    "customerId, " +
-                    "SUM(transactionAmount), " +
-                    "COUNT(*) " +
-                    "FROM kinesis_stream /*+ OPTIONS('streaming'='true','monitor-interval'='10s') */" +
-                    "GROUP BY " +
-                    "customerId," +
-                    "EXTRACT(YEAR FROM transactionTime)," +
-                    "EXTRACT(MONTH FROM transactionTime)," +
-                    "EXTRACT(DAY FROM transactionTime)," +
-                    "TUMBLE(transactionTime, INTERVAL '5' MINUTE);";
-
-
+            final String aggSQL_Iceberg = "insert into glue_catalog.icebergdb.user_order_list_flink_20240429\n" + //
+                                "select * from default_catalog.default_database.user_order_list;";
 
             streamTableEnvironment.executeSql(aggSQL_Iceberg);
-            // 创建一个用于Upsert的统计结果表
 
         }
     }

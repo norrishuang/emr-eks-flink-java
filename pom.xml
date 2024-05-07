@@ -179,7 +179,7 @@
             <version>0.14.0</version>
         </dependency> -->
 
-        <!-- <dependency>
+        <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>glue</artifactId>
             <version>${awssdk.version}</version>
@@ -213,7 +213,7 @@
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>transfer</artifactId>
             <version>${awssdk.version}</version>
-        </dependency> -->
+        </dependency>
         
 
         <!--MSK IAM -->

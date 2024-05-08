@@ -1,1 +1,2 @@
 INSERT INTO glue_catalog.icebergdb.sbtest1 SELECT id , k , c , pad FROM kafka_source_table where origin_database = 'sbtest' and origin_table ='sbtest1';
+INSERT INTO glue_catalog.icebergdb.sbtest2 SELECT id , k , c , pad FROM kafka_source_table where origin_database = 'sbtest' and origin_table ='sbtest2';

@@ -26,3 +26,12 @@ id INT,k INT,c STRING,pad STRING) WITH (
 'write.metadata.delete-after-commit.enabled'='true',
 'write.metadata.previous-versions-max'='5',
 'format-version'='2');
+
+
+CREATE TABLE IF NOT EXISTS glue_catalog.icebergdb.sbtest2 (
+id INT,k INT,c STRING,pad STRING) WITH (
+'type'='iceberg',
+'catalog-name'='glue_catalog',
+'write.metadata.delete-after-commit.enabled'='true',
+'write.metadata.previous-versions-max'='5',
+'format-version'='2');

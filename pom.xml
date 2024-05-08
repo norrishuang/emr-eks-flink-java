@@ -158,11 +158,11 @@
         </dependency> -->
         <!--AWS Dependencies -->
         <!-- aws sdk  -->
-        <dependency>
-            <groupId>org.apache.iceberg</groupId>
-            <artifactId>iceberg-aws-bundle</artifactId>
-            <version>${iceberg.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.apache.iceberg</groupId>-->
+<!--            <artifactId>iceberg-aws-bundle</artifactId>-->
+<!--            <version>${iceberg.version}</version>-->
+<!--        </dependency>-->
 
         <!--Hudi Dependencies -->
         <!-- <dependency>

@@ -19,7 +19,6 @@ PRIMARY KEY (id) NOT ENFORCED
 'format' = 'debezium-json'
 );
 
-
 CREATE TABLE IF NOT EXISTS glue_catalog.icebergdb.sbtest1 (
 id INT,k INT,c STRING,pad STRING) WITH (
 'type'='iceberg',
@@ -28,4 +27,4 @@ id INT,k INT,c STRING,pad STRING) WITH (
 'write.metadata.previous-versions-max'='5',
 'format-version'='2');
 
-INSERT INTO glue_catalog.icebergdb.sbtest1 	SELECT id , k , c , pad FROM kafka_source_table where origin_database = 'sbtest' and origin_table ='sbtest1';
+INSERT INTO glue_catalog.icebergdb.sbtest1 SELECT id , k , c , pad FROM kafka_source_table where origin_database = 'sbtest' and origin_table ='sbtest1';

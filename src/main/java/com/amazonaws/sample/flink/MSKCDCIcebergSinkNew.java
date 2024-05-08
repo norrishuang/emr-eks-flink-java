@@ -51,43 +51,46 @@ public class MSKCDCIcebergSinkNew {
         public static void createAndDeployJob(StreamExecutionEnvironment env) throws IOException {
 
                  
-            InputStream inputStream = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop.sql");
-            String content = new String(inputStream.readAllBytes());
+            InputStream inputStream_CreateTable = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop-create-table-debug.sql");
+            String content_CreateTable = new String(inputStream_CreateTable.readAllBytes());
+
+            InputStream inputStream_Insert = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop-insert-debug.sql");
+            String content_Insert = new String(inputStream_Insert.readAllBytes());
                                                         
             StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(
                                                 env, EnvironmentSettings.newInstance().build());
 
-            Configuration configuration = streamTableEnvironment.getConfig().getConfiguration();
+//            Configuration configuration = streamTableEnvironment.getConfig().getConfiguration();
 
-//            configuration.setString("execution.checkpointing.interval", "1 min");
-                // env.setParallelism(_Parallelism);
 
-            StatementSet stmtSet = streamTableEnvironment.createStatementSet();
-
-                final String icebergCatalog = String.format("CREATE CATALOG glue_catalog WITH ( \n" +
+            final String icebergCatalog = String.format("CREATE CATALOG glue_catalog WITH ( \n" +
                                                 "'type'='iceberg', \n" +
                                                 "'warehouse'='%s', \n" +
                                                 "'catalog-impl'='org.apache.iceberg.aws.glue.GlueCatalog', \n" +
                                                 "'io-impl'='org.apache.iceberg.aws.s3.S3FileIO');", _warehousePath);
 
-                LOG.info(icebergCatalog);
-                streamTableEnvironment.executeSql(icebergCatalog);
+            LOG.info(icebergCatalog);
+            streamTableEnvironment.executeSql(icebergCatalog);
 
-                // craete database 
-                streamTableEnvironment.executeSql("CREATE DATABASE IF NOT EXISTS glue_catalog.icebergdb");
+            // craete database
+            streamTableEnvironment.executeSql("CREATE DATABASE IF NOT EXISTS glue_catalog.icebergdb");
 
-                for (String sql : content.split(";")) {
-                        sql = sql.replace("{TOPICS}", _topics);
-                        sql = sql.replace("{KAFKA_BOOTSTRAP_SERVERS}", _kafkaBootstrapServers);
-                        LOG.info(sql);
-                        if(sql.contains("INSERT")) {
-                            stmtSet.addInsertSql(sql.trim());
-                        } else {
-                            streamTableEnvironment.executeSql(sql.trim());
-                        }
-                        
+            // create table
+            for (String sql : content_CreateTable.split(";")) {
+                sql = sql.replace("{TOPICS}", _topics);
+                sql = sql.replace("{KAFKA_BOOTSTRAP_SERVERS}", _kafkaBootstrapServers);
+                sql = sql.trim();
+                LOG.info(sql);
+                streamTableEnvironment.executeSql(sql.trim());
+            }
+
+            StatementSet stmtSet = streamTableEnvironment.createStatementSet();
+            for (String sql : content_Insert.split(";")) {
+                if(sql.contains("INSERT")) {
+                    stmtSet.addInsertSql(sql.trim());
                 }
-                stmtSet.execute();
+            }
+            stmtSet.execute();
         }
     }
                                   

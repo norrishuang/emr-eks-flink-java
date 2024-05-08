@@ -26,5 +26,3 @@ id INT,k INT,c STRING,pad STRING) WITH (
 'write.metadata.delete-after-commit.enabled'='true',
 'write.metadata.previous-versions-max'='5',
 'format-version'='2');
-
-INSERT INTO glue_catalog.icebergdb.sbtest1 SELECT id , k , c , pad FROM kafka_source_table where origin_database = 'sbtest' and origin_table ='sbtest1';

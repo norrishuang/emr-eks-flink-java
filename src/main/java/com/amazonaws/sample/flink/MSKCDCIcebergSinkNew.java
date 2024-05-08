@@ -51,10 +51,10 @@ public class MSKCDCIcebergSinkNew {
         public static void createAndDeployJob(StreamExecutionEnvironment env) throws IOException {
 
                  
-            InputStream inputStream_CreateTable = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop-create-table-debug.sql");
+            InputStream inputStream_CreateTable = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop-create-table.sql");
             String content_CreateTable = new String(inputStream_CreateTable.readAllBytes());
 
-            InputStream inputStream_Insert = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop-insert-debug.sql");
+            InputStream inputStream_Insert = MSKCDCIcebergSinkNew.class.getClassLoader().getResourceAsStream("flink-on-eks-workshop-insert.sql");
             String content_Insert = new String(inputStream_Insert.readAllBytes());
                                                         
             StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(

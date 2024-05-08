@@ -59,7 +59,7 @@ public class MSKCDCIcebergSinkNew {
 
             Configuration configuration = streamTableEnvironment.getConfig().getConfiguration();
 
-            configuration.setString("execution.checkpointing.interval", "1 min");
+//            configuration.setString("execution.checkpointing.interval", "1 min");
                 // env.setParallelism(_Parallelism);
 
             StatementSet stmtSet = streamTableEnvironment.createStatementSet();

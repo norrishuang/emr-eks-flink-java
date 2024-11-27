@@ -42,21 +42,6 @@
                   </excludes>
                 </filter>
               </filters>
-              <transformers>
-                <transformer>
-                  <mainClass>com.amazonaws.emr.flink.TickAggregation</mainClass>
-                </transformer>
-              </transformers>
-              <relocations>
-                <relocation>
-                  <pattern>org.apache.hadoop.conf</pattern>
-                  <shadedPattern>shaded.org.apache.hadoop.conf</shadedPattern>
-                </relocation>
-                <relocation>
-                  <pattern>org.apache.flink.runtime.util.HadoopUtils</pattern>
-                  <shadedPattern>shadow.org.apache.flink.runtime.util.HadoopUtils</shadedPattern>
-                </relocation>
-              </relocations>
             </configuration>
           </execution>
         </executions>
@@ -66,41 +51,73 @@
   <dependencies>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-streaming-java</artifactId>
-      <version>1.18.0</version>
+      <artifactId>flink-runtime-web</artifactId>
+      <version>1.18.1</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-runtime</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-clients</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-shaded-netty</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-shaded-guava</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-shaded-jackson</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-parquet</artifactId>
-      <version>1.18.0</version>
+      <artifactId>flink-streaming-java</artifactId>
+      <version>1.18.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
-          <artifactId>parquet-hadoop</artifactId>
-          <groupId>org.apache.parquet</groupId>
+          <artifactId>flink-core</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-file-sink-common</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-java</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-math3</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-runtime</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-shaded-guava</artifactId>
+          <groupId>org.apache.flink</groupId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>org.apache.parquet</groupId>
-      <artifactId>parquet-avro</artifactId>
-      <version>1.13.1</version>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-json</artifactId>
+      <version>1.18.1</version>
       <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>parquet-hadoop</artifactId>
-          <groupId>org.apache.parquet</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>parquet-column</artifactId>
-          <groupId>org.apache.parquet</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>parquet-common</artifactId>
-          <groupId>org.apache.parquet</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -110,14 +127,8 @@
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
-      <artifactId>flink-avro</artifactId>
-      <version>1.18.0</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-api-java-bridge</artifactId>
-      <version>1.18.0</version>
+      <version>1.18.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -128,12 +139,16 @@
           <artifactId>flink-table-api-bridge-base</artifactId>
           <groupId>org.apache.flink</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>flink-java</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-planner_2.12</artifactId>
-      <version>1.18.0</version>
+      <version>1.18.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -169,19 +184,75 @@
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-common</artifactId>
-      <version>1.18.0</version>
+      <version>1.18.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
+          <artifactId>flink-shaded-asm-9</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>icu4j</artifactId>
           <groupId>com.ibm.icu</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>flink-core</artifactId>
+          <groupId>org.apache.flink</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>3.3.3</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>hadoop-common</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hadoop-hdfs-client</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hadoop-yarn-api</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hadoop-yarn-client</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hadoop-mapreduce-client-core</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>hadoop-annotations</artifactId>
+          <groupId>org.apache.hadoop</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.flink</groupId>
+      <artifactId>flink-connector-files</artifactId>
+      <version>1.18.1</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>flink-file-sink-common</artifactId>
+          <groupId>org.apache.flink</groupId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.flink</groupId>
       <artifactId>flink-table-runtime</artifactId>
-      <version>1.18.0</version>
+      <version>1.18.1</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -194,14 +265,27 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <version>1.10.2</version>
+      <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-compress</artifactId>
+          <groupId>org.apache.commons</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <properties>
     <scala.binary.version>2.12</scala.binary.version>
     <flink.format.parquet.version>1.13.1</flink.format.parquet.version>
     <iceberg.version>1.5.0</iceberg.version>
     <java.version>11</java.version>
-    <awssdk.version>2.25.31</awssdk.version>
-    <flink.version>1.18.0</flink.version>
+    <avro.version>1.10.2</avro.version>
+    <flink.version>1.18.1</flink.version>
+    <kda.runtime.version>1.2.0</kda.runtime.version>
     <hadoop.version>3.3.3</hadoop.version>
   </properties>
 </project>

@@ -1,5 +1,6 @@
 package com.amazonaws.emr.flink;
 
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
@@ -9,11 +10,8 @@ import org.slf4j.LoggerFactory;
 
 public class IcebergApplication {
 
-    private static String _region = "us-east-1";
-    private static String _inputStreamName = "ExampleInputStream";
-//    private static String _s3SinkPath = "s3a://ka-app-code-<username>/data";
 
-    private static String _warehousePath = "s3a://ka-app-code-<username>/warehouse";
+//    private static String _warehousePath = "s3a://ka-app-code-<username>/warehouse";
 
     private static final Logger LOG = LoggerFactory.getLogger(IcebergApplication.class);
 
@@ -22,17 +20,18 @@ public class IcebergApplication {
 
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        _inputStreamName = args[0];
-        _region = args[1];
-        _warehousePath = args[2];
+        //get parameters from args via ParameterTool
+        ParameterTool applicationProperties = ParameterTool.fromArgs(args);
+        applicationProperties = applicationProperties.mergeWith(ParameterTool.fromSystemProperties());
+        String warehousePath = applicationProperties.get("s3.warehouse");
 
-        IcebergSink.createAndDeployJob(env);
+        IcebergSink.createAndDeployJob(env, warehousePath);
 
     }
 
     public static class IcebergSink {
 
-        public static void createAndDeployJob(StreamExecutionEnvironment env)  {
+        public static void createAndDeployJob(StreamExecutionEnvironment env, String WarehousePath)  {
             StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(
                     env, EnvironmentSettings.newInstance().build());
 
@@ -42,7 +41,7 @@ public class IcebergApplication {
                     "'type'='iceberg', \n" +
                     "'warehouse'='s3://emr-hive-us-east-1-812046859005/warehouse/', \n" +
                     "'catalog-impl'='org.apache.iceberg.aws.glue.GlueCatalog', \n" +
-                    "'io-impl'='org.apache.iceberg.aws.s3.S3FileIO');", _warehousePath);
+                    "'io-impl'='org.apache.iceberg.aws.s3.S3FileIO');", WarehousePath);
             LOG.info(icebergCatalog);
             System.out.println(icebergCatalog);
             streamTableEnvironment.executeSql(icebergCatalog);

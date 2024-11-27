@@ -1,5 +1,6 @@
 package com.amazonaws.sample.flink;
 
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.table.api.EnvironmentSettings;
@@ -25,10 +26,15 @@ public class MSKCDCIcebergSink {
 
                 final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-                _kafkaBootstrapServers = args[0];
-                _topics = args[1];
-                _warehousePath = args[2];
-                _Parallelism = Integer.parseInt(args[3]);
+                ParameterTool applicationProperties = ParameterTool.fromArgs(args);
+                applicationProperties = applicationProperties.mergeWith(ParameterTool.fromSystemProperties());
+
+
+
+                _kafkaBootstrapServers = applicationProperties.get("bootstrap.servers");
+                _topics = applicationProperties.get("topics");
+                _warehousePath = applicationProperties.get("s3.path");
+                _Parallelism = Integer.parseInt(applicationProperties.get("parallelism","1"));
 
                 MSKCDCIcebergSink.IcebergSink.createAndDeployJob(env);
 

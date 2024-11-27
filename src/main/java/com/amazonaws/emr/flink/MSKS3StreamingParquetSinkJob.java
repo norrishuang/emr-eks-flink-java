@@ -6,6 +6,7 @@ import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.core.fs.Path;
 import org.apache.flink.formats.parquet.avro.AvroParquetWriters;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
@@ -52,20 +53,27 @@ public class MSKS3StreamingParquetSinkJob {
     public static void main(String[] args) throws Exception {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
-        String mskBootstrapServers = args[0];
-        String topics = args[1];
-        String s3SinkPath = args[2];
+        //get parameters from args via ParameterTool
+        ParameterTool applicationProperties = ParameterTool.fromArgs(args);
+        applicationProperties = applicationProperties.mergeWith(ParameterTool.fromSystemProperties());
+
+
+
+        String mskBootstrapServers = applicationProperties.get("bootstrap.servers");
+        String topics = applicationProperties.get("topics");
+        String s3SinkPath = applicationProperties.get("s3.path");
+        System.out.println("KAFKA_SERVER====" + mskBootstrapServers);
 
         Properties properties = new Properties();
         properties.put("group.id", "consumer-group-01");
         properties.put("bootstrap.servers", mskBootstrapServers);
 
         // for msk serverless iam
-        properties.put("kafka.security.protocol", "SASL_SSL");
-        properties.put("kafka.sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
-        properties.put("kafka.sasl.client.callback.handler.class",
-                "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
-        properties.put("kafka.sasl.mechanism", "AWS_MSK_IAM");
+//        properties.put("kafka.security.protocol", "SASL_SSL");
+//        properties.put("kafka.sasl.jaas.config", "software.amazon.msk.auth.iam.IAMLoginModule required;");
+//        properties.put("kafka.sasl.client.callback.handler.class",
+//                "software.amazon.msk.auth.iam.IAMClientCallbackHandler");
+//        properties.put("kafka.sasl.mechanism", "AWS_MSK_IAM");
 
 
         KafkaSource<String> source = createKafkaSource(properties, topics);
@@ -73,6 +81,7 @@ public class MSKS3StreamingParquetSinkJob {
         DataStream<String> input = env.fromSource(source, WatermarkStrategy.noWatermarks(), "Kafka source");
 
         ObjectMapper jsonParser = new ObjectMapper();
+
 
         input.map(value -> { // Parse the JSON
             JsonNode jsonNode = jsonParser.readValue(value, JsonNode.class);
